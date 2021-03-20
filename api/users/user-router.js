@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("../users/user-model");
 const { restrict } = require("../auth/middlewares");
 
-//registration user
+//delete user
 router.delete("/users/:userId", restrict, async (req, res, next) => {
   try {
     await User.findOneAndDelete({
