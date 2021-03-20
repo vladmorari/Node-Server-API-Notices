@@ -8,7 +8,6 @@ require("dotenv").config();
 
 router.get("/users", async (req, res) => {
   const allUsers = await User.find();
-  console.log(allUsers)
   res.status(200).json(allUsers);
 });
 
@@ -58,7 +57,7 @@ router.post("/login", validateUserBody, async (req, res, next) => {
   res.cookie("token", token);
   res.status(200).json({ message: "ok" });
 });
-
+//logout user
 router.get("/logout", (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ message: "ok" });
