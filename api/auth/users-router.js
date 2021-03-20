@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../users/user-model");
-const validateUserBody = require("./middlewares");
+const { validateUserBody } = require("./middlewares");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 router.get("/users", async (req, res) => {
   const allUsers = await User.find();
+  console.log(allUsers)
   res.status(200).json(allUsers);
 });
 

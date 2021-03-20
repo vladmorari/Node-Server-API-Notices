@@ -1,31 +1,34 @@
 const express = require("express");
 const router = express.Router();
+const { restrict } = require("../auth/middlewares");
 require("dotenv").config();
 
 const User = require("../users/user-model");
 const Notice = require("./notice-model");
+//obtinem toate notitele unui user
+router.get("/notices", restrict, async (req, res, next) => {
+  try {
+    const getAllNotices = await Notice.find({
+      userId: req.decoded.id,
+    }).populate("userId"); //caut toate notitele dupa user id si le populez cu datele utilizatorului ce lea postat
 
-router.get("/notices", async (req, res) => {
-  const getAllNotices = await Notice.find().populate("userId");
-  res.status(200).json(getAllNotices);
-});
-
-router.post("/notices", async (req, res) => {
-  const newNotice = req.body;
-  const user = await User.findById(newNotice.userId);
-
-  if (!user) {
-    return res.status(404).json({ message: "Id Not Found" });
+    res.status(200).json(getAllNotices);
+  } catch (err) {
+    next(err);
   }
-
-  new Notice(newNotice)
-    .save()
-    .then(() => {
-      res.status(200).json(newNotice);
-    })
-    .catch((error) => {
-      res.status(400).json({ message: "ERROR" });
-    });
 });
+//postam notita
+router.post("/notices", restrict, async (req, res, next) => {
+  try {
+    const { title, content } = req.body;
+    const user = req.decoded.id;
+    const addNote = await new Notice({ title, content, userId: user }).save();
+    res.status(201).json(addNote);
+  } catch (err) {
+    next(err);
+  }
+});
+
+
 
 module.exports = router;

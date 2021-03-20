@@ -2,6 +2,8 @@ require("dotenv").config();
 const expres = require("express");
 const mongosose = require("mongoose");
 const server = expres();
+
+const cookieParser = require("cookie-parser");
 const usersRouter = require("./auth/users-router");
 const noticesRouter = require("./notices/notice-router");
 mongosose.connect(
@@ -13,6 +15,8 @@ mongosose.connect(
 );
 
 server.use(expres.json());
+server.use(cookieParser());
+
 server.use("/", usersRouter);
 server.use("/", noticesRouter);
 

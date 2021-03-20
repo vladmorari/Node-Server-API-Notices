@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 const validateUserBody = async (req, res, next) => {
   const { username, password } = req.body;
   if (!username || !password) {
@@ -5,4 +7,17 @@ const validateUserBody = async (req, res, next) => {
   }
   next();
 };
-module.exports = validateUserBody;
+
+const restrict = (req, res, next) => {
+  const { token } = req.cookies;
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {//verificam daca tokenu coincide cu cel din cookies
+    if (err) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+    req.decoded = decoded;// intoarce datele decodate din cookie token
+    next();
+  });
+ 
+};
+
+module.exports = { validateUserBody, restrict };
