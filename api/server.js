@@ -1,6 +1,8 @@
 require("dotenv").config();
 const expres = require("express");
 const mongosose = require("mongoose");
+const helmet = require("helmet");
+const cors = require("cors");
 const server = expres();
 
 const cookieParser = require("cookie-parser");
@@ -15,14 +17,13 @@ mongosose.connect(
     useUnifiedTopology: true,
   }
 );
-
+server.use(helmet());
+server.use(cors());
 server.use(expres.json());
 server.use(cookieParser());
-
 server.use("/", usersRouter);
 server.use("/", usersRouterAuth);
 server.use("/", noticesRouter);
-
 
 // error middleware
 server.use((err, req, res, next) => {
