@@ -16,7 +16,7 @@ mongosose.connect(
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }
-);
+); 
 server.use(helmet());
 server.use(cors());
 server.use(expres.json());
@@ -27,11 +27,11 @@ server.get("/", (req, res) => {
     .status(200)
     .json({
       message:
-        "Hello, for API data please visit https://github.com/vladmorari/Node-Server-API-Notices",
+        "Hello, for API data please visit https://github.com/vladmorari/Node-Server-API-Notices  " +process.env.key,
     });
 });
-server.use("/", usersRouter);
 server.use("/", usersRouterAuth);
+server.use("/", usersRouter);
 server.use("/", noticesRouter);
 
 // error middleware
