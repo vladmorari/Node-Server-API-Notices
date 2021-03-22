@@ -16,19 +16,18 @@ mongosose.connect(
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }
-); 
+);
+
 server.use(helmet());
 server.use(cors());
 server.use(expres.json());
 server.use(cookieParser());
 
 server.get("/", (req, res) => {
-  res
-    .status(200)
-    .json({
-      message:
-        "Hello, for API data please visit https://github.com/vladmorari/Node-Server-API-Notices  " +process.env.key,
-    });
+  res.status(200).json({
+    message:
+      "Hello, for API data please visit https://github.com/vladmorari/Node-Server-API-Notices  ",
+  });
 });
 server.use("/", usersRouterAuth);
 server.use("/", usersRouter);
