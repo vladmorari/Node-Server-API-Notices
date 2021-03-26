@@ -4,7 +4,7 @@ const mongosose = require("mongoose");
 const helmet = require("helmet");
 const cors = require("cors");
 const server = expres();
-
+const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const usersRouterAuth = require("./auth/users-router");
 const noticesRouter = require("./notices/notice-router");
@@ -18,9 +18,9 @@ mongosose.connect(
   }
 );
 
+server.use(bodyParser.json());
 server.use(helmet());
 server.use(cors());
-server.use(expres.json());
 server.use(cookieParser());
 
 server.get("/", (req, res) => {

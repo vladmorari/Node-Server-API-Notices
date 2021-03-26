@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../users/user-model");
-const { validateUserBody } = require("./middlewares");
+const { validateUserBody, restrict } = require("./middlewares");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -54,12 +54,15 @@ router.post("/login", validateUserBody, async (req, res, next) => {
       expiresIn: 1000 * 60 * 60 * 24 * 7, // 1 week
     }
   );
-  res.cookie("token", token);
-  res.status(200).json({ message: "ok" });
+
+  res.status(200).json({ message: "ok", user: username, token });
 });
 //logout user
 router.get("/logout", (req, res) => {
-  res.clearCookie("token");
+  res.status(200).json({ message: "ok" });
+});
+
+router.get("/check-auth", restrict, (req, res) => {
   res.status(200).json({ message: "ok" });
 });
 
