@@ -21,6 +21,7 @@ router.post("/notices", restrict, async (req, res, next) => {
   try {
     const { title, content } = req.body;
     // const user = req.decoded.id;
+    
     const addNote = await new Notice({
       title,
       content,

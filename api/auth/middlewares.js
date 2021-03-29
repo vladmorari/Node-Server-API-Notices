@@ -9,13 +9,14 @@ const validateUserBody = async (req, res, next) => {
 };
 
 const restrict = (req, res, next) => {
-  const token = req.headers.authorization;
+  const token = req.headers.authorization || req.body.headers.authorization;
+
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    //verificam daca tokenu coincide cu cel din cookies
+    //verificam daca tokenu coincide cu cel primit din headers.auth..
     if (err) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-    req.decoded = decoded; // intoarce datele decodate din cookie token
+    req.decoded = decoded; // intoarce datele utilizatorului decodate din token
     next();
   });
 };

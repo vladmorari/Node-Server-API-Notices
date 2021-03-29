@@ -5,11 +5,10 @@ const helmet = require("helmet");
 const cors = require("cors");
 const server = expres();
 const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
 const usersRouterAuth = require("./auth/users-router");
 const noticesRouter = require("./notices/notice-router");
 const usersRouter = require("./users/user-router");
-
+const cookieParser = require("cookie-parser");
 mongosose.connect(
   ` mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@project-dev.qpq0f.mongodb.net/Notices?retryWrites=true&w=majority`,
   {
@@ -17,11 +16,10 @@ mongosose.connect(
     useUnifiedTopology: true,
   }
 );
-
+server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(helmet());
 server.use(cors());
-server.use(cookieParser());
 
 server.get("/", (req, res) => {
   res.status(200).json({
@@ -36,7 +34,6 @@ server.use("/", noticesRouter);
 // error middleware
 server.use((err, req, res, next) => {
   console.error(err);
-
   res.status(500).json({
     message: "Something went wrong",
   });
