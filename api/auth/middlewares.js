@@ -9,6 +9,7 @@ const validateUserBody = async (req, res, next) => {
 };
 
 const restrict = (req, res, next) => {
+
   const token = req.headers.authorization || req.body.headers.authorization;
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {

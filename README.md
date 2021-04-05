@@ -53,12 +53,3 @@ All CRUD operations require you to be authenticated
 
  - DELETE https://notice-deploy-fw.herokuapp.com/users/:userId
   Delete a user ussing its id
-## authentication example !
-  fetch (`url//`, {
-      method: "POST",
-      body: JSON.stringify({ username, password }),
-      headers: {
-        Accept: "application/json", 
-        "Content-Type": "application/json",
-      },
-    })

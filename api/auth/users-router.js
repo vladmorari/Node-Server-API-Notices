@@ -17,6 +17,7 @@ router.post("/register", validateUserBody, async (req, res, next) => {
   try {
     //verificam daca asa user nu exista deja in baza
     const user = (await User.find({ username })).length;
+
     if (user !== 0) {
       return res.status(409).json({
         message: "Username already taken",
@@ -35,7 +36,6 @@ router.post("/register", validateUserBody, async (req, res, next) => {
 
 // log-in user
 router.post("/login", validateUserBody, async (req, res, next) => {
- 
   const { username, password } = req.body;
 
   const foundUser = await User.findOne({ username });
